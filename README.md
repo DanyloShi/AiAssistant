@@ -12,6 +12,7 @@ This project uses **RAG (Retrieval-Augmented Generation)** and a local **LLaMA 3
 - 📚 Extracts and indexes data from institutional websites
 - ⚡ Fast answers using **cached** responses (SQLite)
 - 🌐 **Web fallback**: uses DuckDuckGo search when internal context fails
+- 💬 **Telegram bot** with real-time chat interface
 - 💾 Works entirely offline with local Ollama models
 
 ---
@@ -24,6 +25,7 @@ This project uses **RAG (Retrieval-Augmented Generation)** and a local **LLaMA 3
 | Embeddings  | [`sentence-transformers`](https://www.sbert.net/) |
 | Vector DB   | [`ChromaDB`](https://www.trychroma.com) |
 | Web Search  | [`DuckDuckGo Instant API`](https://duckduckgo.com/api) |
+| Telegram Bot| [`python-telegram-bot`](https://github.com/python-telegram-bot/python-telegram-bot) |
 | Caching     | SQLite3                             |
 | Language    | Python 3.10+                        |
 
@@ -41,7 +43,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🛠️ Setup
+## 🛠️ Setup & Usage
 
 ### 🔹 1. Run Ollama
 
@@ -64,11 +66,31 @@ python scripts/parser_recursive.py
 python scripts/indexer.py
 ```
 
-### 🔹 4. Launch your assistant
+### 🔹 4. Launch assistant in terminal
 
 ```bash
 python scripts/assistant.py
 ```
+
+---
+
+## 💬 Telegram Bot
+
+### ✅ Prerequisites
+
+1. Create a bot with [@BotFather](https://t.me/BotFather)
+2. Save the token in `.env` file:
+```
+TELEGRAM_BOT_TOKEN=your_token_here
+```
+
+### ▶️ Run the bot
+
+```bash
+python scripts/bot.py
+```
+
+Ask questions directly in Telegram! Replies are generated via RAG and LLaMA 3.
 
 ---
 
@@ -87,15 +109,18 @@ python scripts/assistant.py
 
 ```
 AiAssistant/
-├── scripts/               # All core logic and tools
+├── scripts/
+│   ├── assistant_core.py
 │   ├── assistant.py
-│   ├── parser_recursive.py
-│   ├── indexer.py
+│   ├── bot.py
 │   ├── cache.py
 │   ├── google_fallback.py
-├── data/raw/              # Raw pages per domain
-├── embeddings/            # ChromaDB vector DB (ignored by Git)
-├── cache/                 # Cached answers in SQLite
+│   ├── parser_recursive.py
+│   ├── indexer.py
+├── data/raw/
+├── embeddings/
+├── cache/
+├── .env
 ├── requirements.txt
 └── README.md
 ```
@@ -107,8 +132,8 @@ AiAssistant/
 - [x] Core: Semantic search + LLM generation
 - [x] DuckDuckGo fallback for unseen queries
 - [x] Caching system to avoid repetition
+- [x] Telegram bot support
 - [ ] 🧾 Admin feedback loop (teach assistant)
-- [ ] 📱 Telegram bot interface
 - [ ] 🌐 Streamlit / web interface
 
 ---
