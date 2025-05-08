@@ -2,14 +2,15 @@
 
 A local AI assistant built for the visitors of the [Institute of Computer Sciences and Information Technologies](https://lpnu.ua/ikni) and [Department of Artificial Intelligence Systems](https://aidept.com.ua) (Lviv Polytechnic National University).  
 
-This project uses **RAG (Retrieval-Augmented Generation)** and a local **LLaMA 3** model to provide accurate, contextual, and real-time answers based on public university website data.
+This project uses **RAG (Retrieval-Augmented Generation)** and a local **LLaMA 3** model to provide accurate, contextual, and real-time answers based on public university website data and uploaded datasets.
 
 ---
 
 ## 🚀 Features
 
 - 🧠 **RAG pipeline** (semantic search + LLM answers)
-- 📚 Extracts and indexes data from institutional websites
+- 📚 Extracts and indexes data from university websites and uploaded datasets
+- 📂 Supports `.txt`, `.csv`, `.json`, `.xlsx`, `.pdf`
 - ⚡ Fast answers using **cached** responses (SQLite)
 - 🌐 **Web fallback**: uses DuckDuckGo search when internal context fails
 - 💬 **Telegram bot** with real-time chat interface
@@ -26,6 +27,7 @@ This project uses **RAG (Retrieval-Augmented Generation)** and a local **LLaMA 3
 | Vector DB   | [`ChromaDB`](https://www.trychroma.com) |
 | Web Search  | [`DuckDuckGo Instant API`](https://duckduckgo.com/api) |
 | Telegram Bot| [`python-telegram-bot`](https://github.com/python-telegram-bot/python-telegram-bot) |
+| Dataset Support | `pandas`, `PyMuPDF`, `json` |
 | Caching     | SQLite3                             |
 | Language    | Python 3.10+                        |
 
@@ -66,7 +68,23 @@ python scripts/parser_recursive.py
 python scripts/indexer.py
 ```
 
-### 🔹 4. Launch assistant in terminal
+### 🔹 4. Add custom datasets
+
+Put your `.txt`, `.csv`, `.json`, `.xlsx`, or `.pdf` files into:
+
+```
+data/datasets/
+```
+
+Then run:
+
+```bash
+python scripts/dataset_loader.py
+```
+
+✅ Only new chunks will be indexed (duplicate-safe).
+
+### 🔹 5. Launch assistant in terminal
 
 ```bash
 python scripts/assistant.py
@@ -117,7 +135,10 @@ AiAssistant/
 │   ├── google_fallback.py
 │   ├── parser_recursive.py
 │   ├── indexer.py
-├── data/raw/
+│   ├── dataset_loader.py
+├── data/
+│   ├── raw/
+│   └── datasets/           # 📂 Your datasets go here
 ├── embeddings/
 ├── cache/
 ├── .env
@@ -133,6 +154,7 @@ AiAssistant/
 - [x] DuckDuckGo fallback for unseen queries
 - [x] Caching system to avoid repetition
 - [x] Telegram bot support
+- [x] Dataset support: CSV, TXT, PDF, JSON, XLSX
 - [ ] 🧾 Admin feedback loop (teach assistant)
 - [ ] 🌐 Streamlit / web interface
 
